@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .pkBox {
+            overflow: hidden;
+            text-align: center;
+        }
+
+        button {
+            width: 100px;
+            height: 50px;
+        }
+
+        div.box {
+            width: 50%;
+            float: left;
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        div.box input {
+            font-size: 20px;
+        }
+
+        .red {
+            color: red;
+        }
+
+        .blue {
+            color: blue;
+        }
+
+        p {
+            margin: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="pkBox">
+        <div class="box red">
+            <div class="show">红方英雄</div>
+            <input id="redName" type="text" placeholder="请输入姓名">
+            <div id="playerRed">100</div>
+        </div>
+
+        <div class="box blue">
+            <div class="show">蓝方英雄</div>
+            <input id="blueName" type="text" placeholder="请输入姓名">
+            <div id="playerBlue">100</div>
+        </div>
+
+        <button>开始PK</button>
+
+        <div class="content">
+        </div>
+
+    </div>
+
+    <script>
+        var redipt = document.getElementById("redName");
+        var blueipt = document.getElementById("blueName");
+        var startBtn = document.getElementsByTagName("button")[0];
+        var content = document.getElementsByClassName("content")[0];
+
+        var playerRed = {
+            name: "张三丰",
+            health: 100
+        };
+        var playerBlue = {
+            name: "葫芦娃",
+            health: 100
+        };
+
+        var eventArr = [
+            "发起了猛烈的进攻，打的对手满地找牙, 对方损失了",
+            "使用了大招，对方的假发被打掉了！损失了",
+            "使用了魅惑技能，对方被迷的神魂颠倒，瞬间掉了2W的粉丝，损失了",
+            "查看了葵花宝典，逼格提升了51%，对方被吓破了胆，损失了",
+            "炫耀了他的大块肌肉，对方损失了",
+            "狠狠的鄙视了对方一下，造成了巨大伤害，对方损失",
+            "使用了情侣花式虐狗秀恩爱，一下子打中了对方的小心脏，对方损失"
+        ]
+
+        redipt.onblur = function () {
+            playerRed.name = this.value;
+        }
+        blueipt.onblur = function () {
+            playerBlue.name = this.value;
+        }
+
+        startBtn.onclick = function () {
+            timeID = setInterval(function () {
+                pk();
+            }, 1000)
+        }
+
+
+
+        function pk() {
+            var tagP = document.createElement("p");
+            content.appendChild(tagP);
+
+            var lostHP = Math.floor(Math.random() * 30);
+            var randomNum = Math.random();
+            var attackPlayer = randomNum > 0.5 ? playerRed.name : playerBlue.name;
+            var lostHPPlayer = (attackPlayer == playerRed.name ? playerBlue : playerRed);
+            lostHPPlayer.health -= lostHP;
+            lostHPPlayer.health < 0 ? lostHPPlayer.health = 0 : lostHPPlayer.health;
+
+            document.getElementById((attackPlayer == playerRed.name ? "playerBlue" : "playerRed")).innerHTML = (attackPlayer == playerRed.name ? playerBlue : playerRed).health;
+            tagP.innerHTML = attackPlayer + eventArr[Math.floor(Math.random() * eventArr.length)] + lostHP + "血量";
+            isStop(attackPlayer);
+        }
+
+        function isStop(player) {
+            if (playerRed.health <= 0 || playerBlue.health <= 0) {
+                clearInterval(timeID);
+                var tagP = document.createElement("p");
+                content.appendChild(tagP);
+                tagP.innerHTML = player + "最终获得了胜利！"
+            }
+        }
+
+        // 健壮
+        // 边界处理
+    </script>
+</body>
+
+</html>
