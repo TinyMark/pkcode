@@ -44,6 +44,22 @@
         p {
             margin: 20px;
         }
+
+        #playerRed,
+        #playerBlue {
+            width: 300px;
+            height: 30px;
+            border: 1px solid #000;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+
+        #playerRed div,
+        #playerBlue div {
+            height: 100%;
+            background-color: red;
+            transition: all 1s;
+        }
     </style>
 </head>
 
@@ -51,14 +67,18 @@
     <div class="pkBox">
         <div class="box red">
             <div class="show">红方英雄</div>
-            <input id="redName" type="text" placeholder="请输入姓名">
-            <div id="playerRed">100</div>
+            <input id="redName" type="text" value="奥特曼">
+            <div id="playerRed">
+                <div style="width: 100%;"></div>
+            </div>
         </div>
 
         <div class="box blue">
             <div class="show">蓝方英雄</div>
-            <input id="blueName" type="text" placeholder="请输入姓名">
-            <div id="playerBlue">100</div>
+            <input id="blueName" type="text" value="葫芦娃">
+            <div id="playerBlue">
+                <div style="width: 100%;"></div>
+            </div>
         </div>
 
         <button>开始PK</button>
@@ -75,11 +95,11 @@
         var content = document.getElementsByClassName("content")[0];
 
         var playerRed = {
-            name: "张三丰",
+            name: redipt.value,
             health: 100
         };
         var playerBlue = {
-            name: "葫芦娃",
+            name: blueipt.value,
             health: 100
         };
 
@@ -119,7 +139,8 @@
             lostHPPlayer.health -= lostHP;
             lostHPPlayer.health < 0 ? lostHPPlayer.health = 0 : lostHPPlayer.health;
 
-            document.getElementById((attackPlayer == playerRed.name ? "playerBlue" : "playerRed")).innerHTML = (attackPlayer == playerRed.name ? playerBlue : playerRed).health;
+            // document.getElementById((attackPlayer == playerRed.name ? "playerBlue" : "playerRed")).innerHTML = (attackPlayer == playerRed.name ? playerBlue : playerRed).health;
+            document.getElementById((attackPlayer == playerRed.name ? "playerBlue" : "playerRed")).children[0].style = "width:" + (attackPlayer == playerRed.name ? playerBlue : playerRed).health + "%";
             tagP.innerHTML = attackPlayer + eventArr[Math.floor(Math.random() * eventArr.length)] + lostHP + "血量";
             isStop(attackPlayer);
         }
